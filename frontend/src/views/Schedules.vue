@@ -2,7 +2,7 @@
   <div>
     
     <div class="sidenav">
-      <a href="http://localhost:8081/create" v-on:click="addTeam"><span class="oi oi-plus"></span>New</a>
+
       <a href="#"><span class="oi oi-plus"></span>Old</a>
     </div>
   </div>
