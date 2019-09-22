@@ -5,6 +5,7 @@
 
       <a href="/create"><span class="oi oi-plus"></span>New</a>
       <a href="#"><span class="oi oi-plus"></span>Old</a>
+      <a href="#"><span class="oi oi-plus"></span>Upload</a>
     </div>
   </div>
 </template>
