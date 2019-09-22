@@ -4,12 +4,14 @@
     <div class="sidenav">
 
       <a href="/create"><span class="oi oi-plus"></span>New</a>
+      <a href="#"><span class="oi oi-plus"></span>Old</a>
     </div>
   </div>
 </template>
 
 <script>
 import Row from './../components/Create/Row.vue';
+
 export default {
   components: {
     Row
@@ -55,4 +57,5 @@ export default {
   margin-left: 160px;
   padding-top: 55px;
 }
+</style>
 </style>
