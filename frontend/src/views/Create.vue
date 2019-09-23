@@ -2,6 +2,10 @@
   <div>
     
     <div class="sidenav">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      Options
+    </button>
+
       <a href="#" v-on:click="addTeam"><span class="oi oi-plus"></span>Team</a>
       <a href="#"><span class="oi oi-plus"></span>Coach</a>
       <a href="#"><span class="oi oi-plus"></span>Event</a>
@@ -23,6 +27,32 @@
         </tbody>
       </table>
     </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Schedule Options</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="form-group row">
+            <label for="">Schedule Name</label>
+            <input type="text" placeholder="Schedule 1" class="form-control">
+          </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
       
   </div>
 </template>
@@ -36,12 +66,12 @@ export default {
   },
   data () {
     return {
-      rows: []
+      rows: [{team:'Team 1'}]
     } 
   },
   methods: {
     addTeam: function() {
-      this.rows.push({ team: this.rows.length + 1 });
+      this.rows.push({ team: 'Team ' + (this.rows.length + 1) });
     }
   }
 }
