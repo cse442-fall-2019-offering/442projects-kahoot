@@ -59,4 +59,3 @@ export default {
   padding-top: 55px;
 }
 </style>
-</style>

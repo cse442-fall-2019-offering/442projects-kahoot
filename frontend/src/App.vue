@@ -23,6 +23,8 @@
 
 <style lang="scss">
 @import './../node_modules/open-iconic/font/css/open-iconic-bootstrap.css';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
