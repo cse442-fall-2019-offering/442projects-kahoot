@@ -4,7 +4,7 @@ import structures
 import json
 import array
 
-def get_week_array():
+def get_week_array(json_string):
     #json_data = '{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}'
     #parsed_json = (json.loads(json_data))
     #print(json.dumps(parsed_json, indent=4, sort_keys=True))
@@ -12,7 +12,7 @@ def get_week_array():
     days_array = []
     temp_days = []
     #count = 0
-    with open('distros.json', 'r') as f:
+    with open(json_string, 'r') as f:
         distros_dict = json.load(f)
     for distro in distros_dict:
         team_array = (distro['Team'])
@@ -34,7 +34,7 @@ def get_week_array():
 #week_
 def schedule(week_array, TeamList):
     #make split into sections
-get_week_array()
+
 '''
 def schedule(availableTimeSlots, Teams, numOfSections):
     #make split into sections
