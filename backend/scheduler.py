@@ -1,14 +1,25 @@
 import random
-import structures.py
+import structures
+import json
 
+def get_week_array():
+    #json_data = '{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}'
+    #parsed_json = (json.loads(json_data))
+    #print(json.dumps(parsed_json, indent=4, sort_keys=True))
+    with open('distros.json', 'r') as f:
+        distros_dict = json.load(f)
+    for distro in distros_dict:
+        print(distro['Team'])
+        print(distro['Days'])
 
-
+get_week_array()
+'''
 def schedule(availableTimeSlots, Teams, numOfSections):
     #make split into sections
     numOfTimeSlots = availableTimeSlots.count
     sizeOfSection = round(numOfTimeSlots/numOfSections)
     sectionHolder = []
-    for i in 0..numOfSections:
+    for i in numOfSections:
         section = []
         for j in range(i,((i+1)*sizeOfSection)):
             section.append(availableTimeSlots[j])
@@ -37,15 +48,15 @@ def scheduleOneSection(availableTimeSlots,Teams):
 
 Testing_timeslots = []
 for t in range(1,60):
-    Testing_timeslots.append(TimeSlot(t -1, t))
+    Testing_timeslots.append(structures.TimeSlot(t -1, t))
 
 Testing_num_of_sections = 60/10
 Testing_teams = []
 
 for t in range(1,5):
-    Testing_teams.append(Team(str(t),t))
+    Testing_teams.append(structures.Team(str(t),t))
 
 schedule(Testing_timeslots,Testing_teams,Testing_num_of_sections)
 
 for t in range(0,59):
-    print("working??")
+    print("working??")'''

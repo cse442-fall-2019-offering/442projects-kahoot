@@ -1,4 +1,4 @@
-
+'''
 class Team:
     #_teamName
     #_id
@@ -31,6 +31,6 @@ class Event:
     def schedule(start,end):
         _start = start
         _end = end
-    
+''' 
 
 
