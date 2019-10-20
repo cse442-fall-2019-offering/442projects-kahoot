@@ -26,7 +26,7 @@
           <tr>
             <td><Row v-for="item in rows" v-bind:key="item.team" v-bind:team="item.team"></Row> </td>
             <td></td>
-            <td>{{selected}}</td>
+            <td><EventOption v-for="opt in options" v-bind:key="opt.day" v-bind:day="opt.day"></EventOption></td>
           </tr>
         </tbody>
         
@@ -100,10 +100,12 @@
 
 <script>
 import Row from './../components/Create/Row.vue';
+import EventOption from './../components/Create/EventOption.vue';
 
 export default {
   components: {
-    Row
+    Row,
+    EventOption
     
   },
   data () {
@@ -118,7 +120,7 @@ export default {
       this.rows.push({ team: 'Team ' + (this.rows.length + 1) });
     },
     addEvent: function(){
-     this.options.push(selected)
+     this.options.push({day: (this.selected)});
     }
   }
 }
