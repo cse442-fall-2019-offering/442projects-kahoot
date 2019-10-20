@@ -13,25 +13,37 @@
       <a href="#"><span class="oi oi-plus"></span>Player</a>
     </div>
 
-    <div class="content">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Teams</th>
-            <th>Coaches</th>
-            <th>Events</th>
-            <th>Players</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><Row v-for="item in rows" v-bind:key="item.team" v-bind:team="item.team"></Row> </td>
-            <td></td>
-            <td><EventOption v-for="opt in options" v-bind:key="opt.day" v-bind:day="opt.day"></EventOption></td>
-          </tr>
-        </tbody>
-        
-      </table>
+    <div class="content container">
+      <div class = "row">
+        <div class = "col-6">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Teams</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td align="center"><Row v-for="item in rows" v-bind:key="item.team" v-bind:team="item.team"></Row></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-6">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Day</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr >
+                <td align="center"><EventOption v-for="opt in options" v-bind:key="opt.day" v-bind:day="opt.day"></EventOption></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <button type="button" v-on:click="onSubmit" class="btn btn-primary posit">Submit Data</button>
     </div>
 
@@ -130,13 +142,13 @@ export default {
         team : this.rows,
         day : this.options
       }
-      const path = 'http://127.0.0.1:5000/schedule'
-      axios.post(path, payload)
-        .then(function (response){
-            console.log(response);
+      
+      axios.post(process.env.VUE_APP_BACKEND + '/schedule', payload)
+        .then(r => {
+          console.log(r);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(e => {
+          console.log(e);
         });
     }
   }
