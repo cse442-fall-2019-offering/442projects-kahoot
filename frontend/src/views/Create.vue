@@ -1,3 +1,4 @@
+
 <template>
   <div>
     
@@ -6,7 +7,7 @@
       Options
     </button>
 
-      <a href="#" v-on:click="addTeam"><span class="oi oi-plus"></span>Team</a>
+      <a href="#" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-plus"></span>Team</a>
       <a href="#"><span class="oi oi-plus"></span>Coach</a>
       <a href="#"  data-toggle="modal" data-target="#eventModal"><span class="oi oi-plus"></span>Event</a>
       <a href="#"><span class="oi oi-plus"></span>Player</a>
@@ -31,7 +32,7 @@
         </tbody>
         
       </table>
-      <button type="button" class="btn btn-primary posit">Submit Data</button>
+      <button type="button" v-on:click="onSubmit" class="btn btn-primary posit">Submit Data</button>
     </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -46,14 +47,14 @@
       <div class="modal-body">
         <div class="container">
           <div class="form-group row">
-            <label for="">Schedule Name</label>
-            <input type="text" placeholder="Schedule 1" class="form-control">
+            <label for="">Team Name</label>
+            <input v-model="message" placeholder="Team 1" class="form-control">
           </div>
           </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="button"  v-on:click="addTeam" data-dismiss="modal" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
@@ -101,6 +102,7 @@
 <script>
 import Row from './../components/Create/Row.vue';
 import EventOption from './../components/Create/EventOption.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -110,17 +112,32 @@ export default {
   },
   data () {
     return {
-      rows: [{team:'Team 1'}],
+      rows: [],
       selected:'',
+      message:'',
       options: []
     } 
   },
   methods: {
     addTeam: function() {
-      this.rows.push({ team: 'Team ' + (this.rows.length + 1) });
+      this.rows.push({ team: (this.message) });
     },
     addEvent: function(){
      this.options.push({day: (this.selected)});
+    },
+    onSubmit:function(){
+      const payload={
+        team : this.rows,
+        day : this.options
+      }
+      const path = 'http://127.0.0.1:5000/schedule'
+      axios.post(path, payload)
+        .then(function (response){
+            console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }
 }
