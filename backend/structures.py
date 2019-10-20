@@ -2,28 +2,35 @@
 class Team:
     #_teamName
     #_id
-    __init__(self,teamname,id):
-        self._teamName = teamname
+    def __init__(self, teamName, id):
+        self._teamName = teamName
         self._id = id
+    def print_me():
+        retString = "(" + self._teamName + str(self._id)+ ")"
+        return retString
+    
 #end Team
 
 class TimeSlot:
-    __init__(self, startTime,endTime):
+    def __init__(self, startTime,endTime):
         self._start = startTime
         self._end = endTime
         #calculate duration???
+    
+
 #end TimeSlot
 
 class Event:
-    __init__(self, type):
+    def __init__(self, type):
         self._type = type #should be "Practice" or "Game"
         self._teamList = []
 
-    addTeam(team):
+    def addTeam(team):
         _teamList.add(team)
 
-    schedule(start,end):
+    def schedule(start,end):
         _start = start
         _end = end
-
     
+
+
