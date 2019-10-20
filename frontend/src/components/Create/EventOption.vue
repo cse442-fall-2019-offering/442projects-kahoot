@@ -1,13 +1,12 @@
 <template>
   <tr>
-    <td>{{ team }} </td>
-   
+    <td>{{ day }} </td>
   </tr>
 </template>
 
 <script>
 export default {
-  name: 'Row',
-  props: ['team']
+  name: 'EventOption',
+  props: ['day']
 }
 </script>
