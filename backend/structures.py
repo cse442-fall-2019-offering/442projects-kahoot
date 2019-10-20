@@ -1,4 +1,6 @@
 
+print("is this working?")
+
 class Team:
     #_teamName
     #_id
@@ -15,22 +17,26 @@ class TimeSlot:
     def __init__(self, startTime,endTime):
         self._start = startTime
         self._end = endTime
+        self.event = None
         #calculate duration???
-    
+    def setEvent(event):
+        self.event = event
 
 #end TimeSlot
 
 class Event:
     def __init__(self, type):
         self._type = type #should be "Practice" or "Game"
-        self._teamList = []
+        self._teamList = [] #holds team id
 
     def addTeam(team):
-        _teamList.add(team)
+        self._teamList.append(team)
 
     def schedule(start,end):
-        _start = start
-        _end = end
+        self._start = start
+        self,_end = end
     
 
+team_list = {}
+team_list.
 

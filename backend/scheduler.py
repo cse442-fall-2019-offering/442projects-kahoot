@@ -1,24 +1,42 @@
 import random
-import structures.py
+import structures
 
 
 
-def schedule(availableTimeSlots, Teams, numOfSections):
+
+#week_
+def schedule(week_array, TeamList):
     #make split into sections
-    numOfTimeSlots = availableTimeSlots.count
-    sizeOfSection = round(numOfTimeSlots/numOfSections)
-    sectionHolder = []
-    for i in 0..numOfSections:
-        section = []
-        for j in range(i,((i+1)*sizeOfSection)):
-            section.append(availableTimeSlots[j])
-        sectionHolder.append(section)
     
-    #fill each section with a proper amount of practices
-    #ouput the full TimeSlots
+    for week in week_array:
+        #schedule the teams
+        scheduleOneWeek(week,TeamList)
 
 
-def scheduleOneSection(availableTimeSlots,Teams):
+#days_left is a D array to fill
+def scheduleOneWeek(days_left,Teams):
+    random_Team_set = [i for i in range(0,len(Teams))]
+
+    random.shuffle(random_Team_set)
+    
+    days_scheduled = 0
+    random_index = 0
+    while days_scheduled <= len(days_left) and random_index <= len(random_Team_set):
+        rand = random_Team_set[random_index]
+        e = structures.Event("practice")
+        days_left[days_scheduled] = e.addTeam(Teams[random_index]._id)
+        random_index += 1
+        days_scheduled += 1
+
+
+
+    """
+    availableTimeSlots = []
+    for day in days_left:
+        for time_slot in day:
+            availableTimeSlots.append(time_slot)
+    
+
     teamsLeft = []
     count =0
     for t in Teams:
@@ -27,25 +45,21 @@ def scheduleOneSection(availableTimeSlots,Teams):
     random.shuffle(teamsLeft)
     indexOfTeams = 0
     indexOfTimeSlots = 0
-    while(teamsLeft.count != indexOfTeams and availableTimeSlots.count != indexOfTimeSlots):
+    while(len(teamsLeft) != indexOfTeams and len(availableTimeSlots) != indexOfTimeSlots):
+
         availableTimeSlots[indexOfTimeSlots] = structures.Event("practice").addTeam(Teams[teamsLeft[indexOfTeams]])
         indexOfTeams += 1
         indexOfTimeSlots += 1
-    return availableTimeSlots
+    """
+    
 
 
 
-Testing_timeslots = []
-for t in range(1,60):
-    Testing_timeslots.append(TimeSlot(t -1, t))
 
-Testing_num_of_sections = 60/10
-Testing_teams = []
+Testing_weeks = [[[structures.TimeSlot(str("hi"),k*j*i) for k in range(0,1)] for j in range(0,5)] for i in range(0,5)]
 
-for t in range(1,5):
-    Testing_teams.append(Team(str(t),t))
 
-schedule(Testing_timeslots,Testing_teams,Testing_num_of_sections)
+Testing_teams = [structures.Team(str(i),i) for i in range(0,5)]
 
-for t in range(0,59):
-    print("working??")
+schedule(Testing_weeks,Testing_teams)
+
