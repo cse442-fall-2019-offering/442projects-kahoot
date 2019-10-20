@@ -19,8 +19,17 @@
 
 
 <script>
+import axios from 'axios';
+
 export default{
     name: 'Login',
+    mounted() {
+        axios
+            .get(process.env.VUE_APP_BACKEND + "/schedule")
+            .then(res => {
+                console.log(res);
+            })
+    },
     data(){
         return{
             title: 'Login'
