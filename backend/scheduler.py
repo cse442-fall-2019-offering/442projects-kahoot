@@ -18,9 +18,10 @@ def get_week_array(json_string):
     new_team_array = []
     new_day_array = []
     
-    with open(json_string, 'r') as f:
-        distros_dict = json.load(f)
-    for distro in distros_dict:
+    print(json_string)
+    json_object = json.loads(json_string)
+    for distro in json_object:
+        print(distro)
         team_objects_array = (distro['team'])
         days_array = (distro['day'])
         
@@ -43,4 +44,13 @@ def get_week_array(json_string):
     print(temp_team)
     days_array = (distro['Days'])
     print(days_array)'''
-get_week_array('distros.json')
+
+
+
+def read_Json_file():
+    f = open("distros.txt", 'r')
+    contents = f.read()
+   
+    get_week_array(contents)
+
+#read_Json_file()
