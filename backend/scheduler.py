@@ -15,14 +15,23 @@ def get_week_array(json_string):
     temp_team = []
     dict = {}
     count = 0
+    new_team_array = []
+    new_day_array = []
     
     with open(json_string, 'r') as f:
         distros_dict = json.load(f)
     for distro in distros_dict:
         team_objects_array = (distro['team'])
-        #days_array = (distro['Days'])
-        #temp_team = (distro['Team'])
-        print(team_objects_array)
+        days_array = (distro['day'])
+        
+        for elem in team_objects_array:
+            new_team_array.append(elem['team'])
+        for elem in days_array:
+            new_day_array.append(elem['day'])
+    print(new_day_array)
+    print(new_team_array)
+    
+
     '''count = len(team_array)
     a = []
     for x in range(0, count):
