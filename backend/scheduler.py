@@ -9,7 +9,6 @@ def get_week_array(json_string):
     #parsed_json = (json.loads(json_data))
     #print(json.dumps(parsed_json, indent=4, sort_keys=True))
     team_objects_array = []
-    team_names = []
     #days_array = []
     
     temp_team = []
@@ -30,17 +29,20 @@ def get_week_array(json_string):
             new_day_array.append(elem['day'])
     print(new_day_array)
     print(new_team_array)
+    #temp_team = new_team_array
     
-
-    '''count = len(team_array)
+    count = len(new_team_array)
     a = []
     for x in range(0, count):
         a.append(x)
     random.shuffle(a)
-    print(a)
+    #print(a)
+    #print(new_day_array)
     for x in range(0, count):
-        temp_team[x] = team_array[a[x]]
-    print(temp_team)
-    days_array = (distro['Days'])
-    print(days_array)'''
+        temp_team.append(new_team_array[a[x]]) 
+    #print(temp_team)
+    for x in range(0, count):
+        dict.update({temp_team[x] : new_day_array[x]})
+    print(dict)
+
 get_week_array('distros.json')
