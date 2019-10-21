@@ -9,9 +9,13 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <b-nav-item to="/">Login</b-nav-item> 
-            <b-nav-item to="/schedules">Schedules</b-nav-item> 
-            <b-nav-item to="/create">Create</b-nav-item> 
+            <b-nav-item :hidden="$store.getters.authenticated" to="/">Login</b-nav-item> 
+            <b-nav-item :hidden="!$store.getters.authenticated"  to="/schedules">Schedules</b-nav-item> 
+            <b-nav-item :hidden="!$store.getters.authenticated" to="/create">Create</b-nav-item> 
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li :hidden="!$store.getters.authenticated"> Logged in as {{ $store.getters.email }} </li>
+            <li :hidden="!$store.getters.authenticated"><button  v-on:click="logout" class="btn">Logout</button></li>
           </ul>
         </div>
       </nav>
@@ -20,6 +24,17 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.commit("logout");
+      this.$router.push('/');
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 @import './../node_modules/open-iconic/font/css/open-iconic-bootstrap.css';
