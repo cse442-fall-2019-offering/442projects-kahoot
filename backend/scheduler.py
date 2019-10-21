@@ -12,24 +12,18 @@ def get_week_array(json_string):
     #days_array = []
     
     temp_team = []
-    dict = {}
     count = 0
     new_team_array = []
     new_day_array = []
-    print(type(json_string))
-    print(json_string)
-    if(type(json_string) != dict):
-        json_string = json.loads(json_string)
     
-    for distro in json_string:
-        print(distro)
-        team_objects_array = (distro['team'])
-        days_array = (distro['day'])
+    team_objects_array = (json_string['team'])
+    days_array = (json_string['day'])
+    
+    for elem in team_objects_array:
+        new_team_array.append(elem['team'])
+    for elem in days_array:
+        new_day_array.append(elem['day'])
         
-        for elem in team_objects_array:
-            new_team_array.append(elem['team'])
-        for elem in days_array:
-            new_day_array.append(elem['day'])
     print(new_day_array)
     print(new_team_array)
     #temp_team = new_team_array
@@ -44,9 +38,11 @@ def get_week_array(json_string):
     for x in range(0, count):
         temp_team.append(new_team_array[a[x]]) 
     #print(temp_team)
+    final_team = {}
     for x in range(0, count):
-        dict.update({temp_team[x] : new_day_array[x]})
-    print(dict)
+        final_team.update({temp_team[x] : new_day_array[x]})
+    print(final_team)
+    return str(final_team)
 
 
 def read_Json_file():
