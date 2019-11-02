@@ -9,13 +9,13 @@
 
       <a href="#" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-plus"></span>Team</a>
       <a href="#"><span class="oi oi-plus"></span>Coach</a>
-      <a href="#"  data-toggle="modal" data-target="#eventModal"><span class="oi oi-plus"></span>Event</a>
+      <a href="#"  data-toggle="modal" data-target="#eventModal"><span class="oi oi-plus"></span>Time-Slot</a>
       <a href="#"><span class="oi oi-plus"></span>Player</a>
     </div>
 
     <div class="content container">
       <div class = "row">
-        <div class = "col-6">
+        <div class = "col-12">
           <table class="table">
             <thead>
               <tr>
@@ -29,21 +29,24 @@
             </tbody>
           </table>
         </div>
-        <div class="col-6">
+      <div class="conent container">
+        <div class="col-12">
           <table class="table">
             <thead>
               <tr>
-                <th>Day</th>
+                <th>Time-Slot</th>
               </tr>
             </thead>
             <tbody>
               <tr >
-                <td align="center"><EventOption v-for="opt in options" v-bind:key="opt.day" v-bind:day="opt.day"></EventOption></td>
+                <td align="center"><EventOption v-for="opt in options" :key="opt.day" :day="opt.day" :timeOption="opt.timeOption" ></EventOption> </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      </div>
+   
       <button type="button" v-on:click="onSubmit" class="btn btn-primary posit">Submit Data</button>
     </div>
 
@@ -84,7 +87,7 @@
       <div class="modal-body">
         <div class="container">
           <div class="form-group row">
-            <label for="exampleS">Event Day</label>
+            <label for="exampleS" id="spacing">Day</label>
             
               <select v-model="selected" >
                 <option>Monday</option>
@@ -97,7 +100,29 @@
               </select>
             
           </div>
+
     
+        </div>
+      
+      <br>
+        <div class="container">
+          <div class="form-group row">
+            <label for="exampleTime" id="spacing">Time</label>
+            
+              <select v-model="timeOption" >
+                <option>09:00 AM</option>
+                <option >10:00 AM</option>
+                <option>11:00 AM</option>
+                <option >12:00 PM</option>
+                <option >01:00 PM</option>
+                <option >02:00 PM</option>
+                <option >03:00 PM</option>
+                <option >04:00 PM</option>
+                <option >05:00 PM</option>
+              </select>
+            
+          </div>
+
         </div>
       </div>
       <div class="modal-footer">
@@ -121,13 +146,21 @@ export default {
     Row,
     EventOption
     
+    
   },
   data () {
     return {
       rows: [],
+      
       selected:'',
+      timeOption:'',
+      
       message:'',
-      options: []
+      options: [{
+        selected:'',
+        timeOption:''
+      }]
+      
     } 
   },
   methods: {
@@ -135,7 +168,12 @@ export default {
       this.rows.push({ team: (this.message) });
     },
     addEvent: function(){
-     this.options.push({day: (this.selected)});
+     this.options.push({
+       day:(this.selected),
+       timeOption:(this.timeOption)
+       }
+       );
+     
     },
     onSubmit:function(){
       const payload={
@@ -158,7 +196,7 @@ export default {
 <style lang="scss">
 .sidenav {
   height: 100%; 
-  width: 160px;
+  width: 200px;
   position: fixed; 
   z-index: 1; 
   top: 0; 
@@ -188,5 +226,9 @@ export default {
   right: 5px;
   bottom: 20px;
   
+}
+#spacing{
+  
+  padding-right: 20px
 }
 </style>
