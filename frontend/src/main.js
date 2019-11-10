@@ -6,8 +6,10 @@ import 'bootstrap'
 import GAuth from 'vue-google-oauth2'
 
 Vue.use(GAuth, {
-  clientId: '220236547468-49pis7nd758b0rg1rrldmn38jjtl74f7.apps.googleusercontent.com',
-  // scope: 'profile email',
+  clientId: '220236547468-tej6t7kvg133npvqp80s60mrl7gtaofi.apps.googleusercontent.com',
+  access_type: 'offline',
+
+  scope: 'https://www.googleapis.com/auth/calendar',
   // prompt: 'select_account'
 })
 

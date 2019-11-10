@@ -27,16 +27,30 @@ export default{
     name: 'Login',
     methods: {
         login: function() {
-            this.$gAuth.signIn()
-            .then(GoogleUser => {
-                console.log('user', GoogleUser)
-                this.$store.commit('login', GoogleUser.getBasicProfile().U3);
-                this.$router.push("create");
-                // this.isSignIn = this.$gAuth.isAuthorized
-            })
-            .catch(error  => {
-            //on fail do something
-            })
+            // this.$gAuth.signIn()
+            // .then(GoogleUser => {
+            //     console.log('user', GoogleUser)
+            //     this.$store.commit('login', GoogleUser.getBasicProfile().U3);
+            //     this.$router.push("create");
+            //     // this.isSignIn = this.$gAuth.isAuthorized
+            // })
+            // .catch(error  => {
+            // //on fail do something
+            // })
+            this.$gAuth.getAuthCode()
+              .then(authCode => {
+                  axios.post(process.env.VUE_APP_BACKEND + '/login', {code: authCode})
+                    .then(r => {
+                        this.$store.commit('login', r.data);
+                        this.$router.push("create");
+                    })
+                    .catch(e => {
+
+                    })
+              })
+              .catch(e => {
+
+              });
         },
         logout: function() {
             this.$gAuth.signOut()

@@ -1,2 +1,6 @@
 flask
 flask-cors
+requests
+apiclient
+httplib2
+oauth2client

@@ -9,11 +9,13 @@ export default new Vuex.Store({
     authenticated: false
   },
   mutations: {
-    login(state, email) {
-      state.email = email
+    login(state, data) {
+      state.id = data.id
+      state.email = data.email
       state.authenticated = true 
     },
     logout(state) {
+      state.id = ""
       state.email = ""
       state.authenticated = false
     }
