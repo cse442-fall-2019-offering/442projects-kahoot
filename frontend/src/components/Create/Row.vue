@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ team }} </td>
+    <td>{{ team }} {{weeks}} {{practices}} {{games}} {{sdate}}</td>
    
   </tr>
 </template>
@@ -8,6 +8,6 @@
 <script>
 export default {
   name: 'Row',
-  props: ['team']
+  props: ['team','weeks','practices','games','sdate']
 }
 </script>

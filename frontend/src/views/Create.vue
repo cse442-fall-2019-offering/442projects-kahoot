@@ -65,6 +65,22 @@
             <label for="">Team Name</label>
             <input v-model="message" placeholder="Team 1" class="form-control">
           </div>
+          <div class="form-group row">
+            <label for="" >Number of Weeks</label>
+                <input v-model="weeks" class="form-control" type="number" placeholder="0">
+          </div>
+          <div class="form-group row">
+            <label for="" >Number of weekly practices </label>
+                <input v-model="practices" class="form-control" type="number" placeholder="0">
+          </div>
+          <div class="form-group row">
+            <label for="" >Total games required</label>
+                <input v-model="games" class="form-control" type="number" placeholder="0">
+          </div>
+          <div class="form-group row">
+            <label for="" >Start date</label>
+                <input v-model="sdate" class="form-control" type="date" placeholder="2019-11-15">
+          </div>
           </div>
       </div>
       <div class="modal-footer">
@@ -150,22 +166,28 @@ export default {
   },
   data () {
     return {
-      rows: [],
+      message:'',
+      weeks: '',
+      games:'',
+      practices:'',
+      sdate:'',
+      rows: [{
+        
+      }],
       
       selected:'',
       timeOption:'',
       
-      message:'',
+      
       options: [{
-        selected:'',
-        timeOption:''
+       
       }]
       
     } 
   },
   methods: {
     addTeam: function() {
-      this.rows.push({ team: (this.message) });
+      this.rows.push({ team: (this.message), weeks: (this.weeks), practices:(this.practices), games:(this.games), sdate: (this.sdate) });
     },
     addEvent: function(){
      this.options.push({
@@ -177,8 +199,8 @@ export default {
     },
     onSubmit:function(){
       const payload={
-        team : this.rows,
-        day : this.options
+        teaminfo : this.rows,
+        timing : this.options
       }
       
       axios.post(process.env.VUE_APP_BACKEND + '/schedule', payload)
