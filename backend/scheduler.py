@@ -67,16 +67,17 @@ def check_tuples_for_equivelances(game1, game2):
     return flag
 
 
-#input list of teams
+#input list of teams should be less than 8
 #input num_of_rounds
 #returns the game list
 def make_games(teams, num_of_rounds):
+    '''
     game_list = []
     for round in range(0, num_of_rounds)
         for i in range(0, len(teams)):
             for j in range(i,len(teams)):
                 if(i != j):
-                    game_list.append((teams[i],teams[j])
+                    game_list.append((teams[i],teams[j]))
     
     if(len(teams) > 3):
         #add cases where we do not have the same games twice
@@ -89,6 +90,33 @@ def make_games(teams, num_of_rounds):
                 game_adj_graph[game_index][matrix_index] = 1
             else:
                 game_adj_graph[game_index][matrix_index] = 0
+    #create weeks
+    '''
+    if(len(teams)%2 == 1):
+        teams.append("null")
+    weeks = []
+    if(len(teams) == 2):
+        weeks.append([(1,2)])
+    if(len(teams) == 4):
+        weeks.append([(1,2),(3,4)])
+        weeks.append([(2,3),(1,4)])
+        weeks.append([(1,3),(2,4)])
+    if(len(teams) == 6):
+        weeks.append([(1,2),(3,4),(5,6)])
+        weeks.append([(1,3),(2,6),(4,5)])
+        weeks.append([(1,4),(2,5),(3,6)])
+        weeks.append([(1,5),(2,3),(4,6)])
+        weeks.append([(1,6),(2,4),(3,5)])
+    if(len(teams) == 8):
+        weeks.append([(5,8),(3,7),(4,6),(1,2)])
+        weeks.append([(2,3),(1,4),(6,8),(5,7)])
+        weeks.append([(3,4),(2,5),(7,8),(1,6)])
+        weeks.append([(1,8),(3,6),(2,7),(4,5)])
+        weeks.append([(5,6),(2,8),(1,3),(4,7)])
+        weeks.append([(6,7),(1,5),(2,4),(3,8)])
+        weeks.append([(1,7),(4,8),(3,5),(2,6)])
+        
+    
     
     
 
