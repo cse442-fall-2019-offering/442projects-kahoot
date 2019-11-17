@@ -118,7 +118,10 @@ def make_games(num_of_teams):
     return weeks
 
 
-def make_shell_of_calendar(num_of_weeks, time_slots)
+def make_shell_of_calendar(num_of_weeks, time_slots):
+    calendar_shell = [[] for _ in num_of_weeks]
+    days = 
+
 
     
 
@@ -131,7 +134,7 @@ def main(json_dictionary):
     print(games_per_weeks)
 
     #make shell schedule
-
+    calendar = make_shell_of_calendar(number_of_weeks, days)
 
     #check if possible 
 
