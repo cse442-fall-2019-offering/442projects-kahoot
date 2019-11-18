@@ -3,6 +3,7 @@ import structures
 import router
 import json
 import array
+import copy
 
 def get_week_array(json_string):
     
@@ -117,28 +118,92 @@ def make_games(num_of_teams):
         weeks.append([(1,7),(4,8),(3,5),(2,6)])
     return weeks
 
+def day_sort_function(elem):
+    if("Monday" == elem[2]):
+        return 1
+    if("Tuesday" == elem[2]):
+        return 2
+    if("Wednesday" == elem[2]):
+        return 3
+    if("Thursday" == elem[2]):
+        return 4
+    if("Friday" == elem[2]):
+        return 5
+    if("Saturday" == elem[2]):
+        return 6
+    if("Sunday" == elem[2]):
+        return 7
+    return -1
 
 def make_shell_of_calendar(num_of_weeks, time_slots):
-    calendar_shell = [[] for _ in num_of_weeks]
-    days = 
+    week_array = []
+    for x in time_slots:
+        week_array.append(["_","PorG",x])
+    week_array.sort(key = day_sort_function)
+    calendar_shell = [week_array for _ in range(0,num_of_weeks)]
+    return calendar_shell
 
+def fill_in_calendar(calendar, teams, games_list):
+    shuffable_team_list = copy.deepcopy(teams)
+    random.shuffle(shuffable_team_list)
+    weekindex = 0
+    finalCalendar = []
+    #assume games_list size == num of weeks
+    for week in calendar:
+        newWeek = copy.deepcopy(week)
+        #practice schedule
+        #make practices
+        practice_shuffle_list = copy.deepcopy(teams)
+        random.shuffle(practice_shuffle_list)
+        index_of_timeSlot = 0
+        for team in practice_shuffle_list:
+            newWeek[index_of_timeSlot][0] = team
+            newWeek[index_of_timeSlot][1] = "Practice"
+            index_of_timeSlot += 1
 
-    
+        #schedule games
+        next_index_of_game = len(week)-1
+        ignore_team = -1
+        if(len(teams) % 2 == 1):
+            ignore_team = len(teams) + 1
+        for game in games_list[weekindex]:
+            if(game[0] == ignore_team or game[1] == ignore_team):
+                continue
+            newWeek[next_index_of_game][1] = "Game"
+            team1 = shuffable_team_list[game[0] -1]
+            team2 = shuffable_team_list[game[1] -1]
+            
+            newWeek[next_index_of_game][0] = team1+ " vs "+ team2
+            
+            next_index_of_game  = next_index_of_game - 1
+        
+        finalCalendar.append(newWeek)
+        weekindex += 1
+    return finalCalendar
+
 
 
 def main(json_dictionary):
+    
+
     #parse json_dictionary
-    teams,days = parse_Json_dictionary(json_dictionary)
+    teams,timeslots = parse_Json_dictionary(json_dictionary)
+    number_of_weeks = len(teams) - 1
+    print("Number of Weeks" , number_of_weeks)
     #make games 
     games_per_weeks = make_games(len(teams))
     print(games_per_weeks)
 
     #make shell schedule
-    calendar = make_shell_of_calendar(number_of_weeks, days)
+    calendar = make_shell_of_calendar(number_of_weeks, timeslots)
+    print(calendar)
+    #error handling
+    
+    #fill in calendar
+    copy_of_teams = teams
+    newcalendar = fill_in_calendar(calendar, copy_of_teams, games_per_weeks)
+    print(newcalendar)
 
-    #check if possible 
-
-    #schedule games
 
     #format the final result
     #send to google calendar
