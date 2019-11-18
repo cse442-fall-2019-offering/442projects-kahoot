@@ -10,7 +10,7 @@ Vue.use(GAuth, {
   access_type: 'offline',
 
   scope: 'https://www.googleapis.com/auth/calendar',
-  // prompt: 'select_account'
+  prompt: 'consent'
 })
 
 import router from './router'
