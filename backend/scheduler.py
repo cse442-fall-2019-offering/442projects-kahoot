@@ -140,15 +140,16 @@ def make_shell_of_calendar(num_of_weeks, time_slots):
     for x in time_slots:
         week_array.append(["_","PorG",x])
     week_array.sort(key = day_sort_function)
-    calendar_shell = [week_array for _ in range(0,num_of_weeks)]
+    calendar_shell = [copy.deepcopy(week_array) for _ in range(0,num_of_weeks)]
     return calendar_shell
 
 def fill_in_calendar(calendar, teams, games_list):
     shuffable_team_list = copy.deepcopy(teams)
     random.shuffle(shuffable_team_list)
+    if()
     weekindex = 0
     finalCalendar = []
-    #assume games_list size == num of weeks
+    #assume games_list size =< num of weeks
     for week in calendar:
         newWeek = copy.deepcopy(week)
         #practice schedule
@@ -198,6 +199,7 @@ def main(json_dictionary):
     calendar = make_shell_of_calendar(number_of_weeks, timeslots)
     print(calendar)
     #error handling
+    if(len(games_per_weeks)> len(calendar))
     
     #fill in calendar
     copy_of_teams = teams
