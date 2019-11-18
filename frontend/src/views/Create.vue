@@ -8,7 +8,7 @@
     </button>
 
       <a href="#" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-plus"></span>Team</a>
-      <a href="#"><span class="oi oi-plus"></span>Coach</a>
+      <a href="#" data-toggle="modal" data-target="#optionModal"><span class="oi oi-plus"></span>Options</a>
       <a href="#"  data-toggle="modal" data-target="#eventModal"><span class="oi oi-plus"></span>Time-Slot</a>
       <a href="#"><span class="oi oi-plus"></span>Player</a>
     </div>
@@ -39,7 +39,7 @@
             </thead>
             <tbody>
               <tr >
-                <td align="center"><EventOption v-for="opt in options" :key="opt.day" :day="opt.day" :timeOption="opt.timeOption" ></EventOption> </td>
+                <td align="center"><EventOption v-for="opt in timeOptions" v-bind:key="opt.day" v-bind:day="opt.day" v-bind:timeOption="opt.timeOption" ></EventOption> </td>
               </tr>
             </tbody>
           </table>
@@ -54,7 +54,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Schedule Options</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Enter Team</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -65,6 +65,27 @@
             <label for="">Team Name</label>
             <input v-model="message" placeholder="Team 1" class="form-control">
           </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button"  v-on:click="addTeam" data-dismiss="modal" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Schedule Options</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
           <div class="form-group row">
             <label for="" >Number of Weeks</label>
                 <input v-model="weeks" class="form-control" type="number" placeholder="0">
@@ -74,10 +95,6 @@
                 <input v-model="practices" class="form-control" type="number" placeholder="0">
           </div>
           <div class="form-group row">
-            <label for="" >Total games required</label>
-                <input v-model="games" class="form-control" type="number" placeholder="0">
-          </div>
-          <div class="form-group row">
             <label for="" >Start date</label>
                 <input v-model="sdate" class="form-control" type="date" placeholder="2019-11-15">
           </div>
@@ -85,7 +102,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button"  v-on:click="addTeam" data-dismiss="modal" class="btn btn-primary">Submit</button>
+        <button type="button"  v-on:click="addOptions" data-dismiss="modal" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
@@ -155,12 +172,14 @@
 <script>
 import Row from './../components/Create/Row.vue';
 import EventOption from './../components/Create/EventOption.vue';
+import ScheduleOptions from './../components/Create/ScheduleOptions.vue';
 import axios from 'axios';
 
 export default {
   components: {
     Row,
-    EventOption
+    EventOption,
+    ScheduleOptions
     
     
   },
@@ -168,18 +187,16 @@ export default {
     return {
       message:'',
       weeks: '',
-      games:'',
       practices:'',
       sdate:'',
       rows: [{
         
       }],
-      
       selected:'',
       timeOption:'',
-      
-      
-      options: [{
+      day:'',
+      options:[{}],      
+      timeOptions: [{
        
       }]
       
@@ -187,20 +204,24 @@ export default {
   },
   methods: {
     addTeam: function() {
-      this.rows.push({ team: (this.message), weeks: (this.weeks), practices:(this.practices), games:(this.games), sdate: (this.sdate) });
+      this.rows.push({ team: (this.message)  });
     },
     addEvent: function(){
-     this.options.push({
+     this.timeOptions.push({
        day:(this.selected),
        timeOption:(this.timeOption)
        }
        );
      
     },
+    addOptions: function(){
+      this.options.push({weeks: (this.weeks), practices:(this.practices), sdate: (this.sdate)});
+    },
     onSubmit:function(){
       const payload={
         teaminfo : this.rows,
-        timing : this.options
+        timing : this.timeOptions,
+        scheduleOptions: this.options
       }
       
       axios.post(process.env.VUE_APP_BACKEND + '/schedule', payload)
