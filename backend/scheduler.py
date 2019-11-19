@@ -5,7 +5,7 @@ import json
 import array
 import copy
 
-def get_week_array(json_string):
+'''def get_week_array(json_string):
     
         
     print(new_day_array)
@@ -27,21 +27,59 @@ def get_week_array(json_string):
         final_team.update({temp_team[x] : new_day_array[x]})
     print(final_team)
     return str(final_team)
-
-
+'''
+#locally testing json parser
+'''
 def read_Json_file():
-    f = open("distros.txt", 'r')
-    contents = f.read()
-    get_week_array(contents)
+    teams = []
+    days = []
+    timeOption = []
+    weeks = []
+    sdate = []
+    practices = []
+    f = open("distros.json")
+    contents = json.load(f)
+    f.close()
+    type(contents)
+    teaminfo = (contents['teaminfo'])
+    #print(type(teaminfo))
+    del teaminfo[0]
+    #print(teaminfo)
+    timing = (contents['timing'])
+    del timing[0]
+    #print(timing)
+    options = (contents['options'])
+    del options[0]
+    #print(options)
+
+    for elem in teaminfo:
+        teams.append(elem['team'])
+    for elem in timing:
+        days.append(elem['day'])
+        timeOption.append(elem['timeOption'])
+    for elem in options:
+        weeks.append(elem['weeks'])
+        practices.append(elem['practices'])
+        sdate.append(elem['sdate'])
+    print(teams)
+    print(days)
+    print(timeOption)
+    print(weeks)
+    print(practices)
+    print(sdate)
+
+
+    #contents = 
+    
+    #temp = contents['teaminfo']
+read_Json_file()
+'''
 
 
 #returns 2 things, teams and days
 def parse_Json_dictionary(json_dictionary):
-    #json_data = '{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}'
-    #parsed_json = (json.loads(json_data))
-    #print(json.dumps(parsed_json, indent=4, sort_keys=True))
+    '''
     team_objects_array = []
-    #days_array = []
     
     temp_team = []
     count = 0
@@ -56,6 +94,30 @@ def parse_Json_dictionary(json_dictionary):
     for elem in days_array:
         new_day_array.append(elem['day'])
     return new_team_array,new_day_array
+    '''
+    teams = []
+    days = []
+    timeOption = []
+    weeks = []
+    sdate = []
+    practices = []
+    teaminfo = (json_dictionary['teaminfo'])
+    del teaminfo[0]
+    timing = (json_dictionary['timing'])
+    del timing[0]
+    options = (json_dictionary['options'])
+    del options[0]
+
+    for elem in teaminfo:
+        teams.append(elem['team'])
+    for elem in timing:
+        days.append(elem['day'])
+        timeOption.append(elem['timeOption'])
+    for elem in options:
+        weeks.append(elem['weeks'])
+        practices.append(elem['practices'])
+        sdate.append(elem['sdate'])
+    return teams, days, timeOption, weeks, sdate, practices
 
 #games are in the format (teams[i],teams[j])
 #return true if there is any 
@@ -146,7 +208,7 @@ def make_shell_of_calendar(num_of_weeks, time_slots):
 def fill_in_calendar(calendar, teams, games_list):
     shuffable_team_list = copy.deepcopy(teams)
     random.shuffle(shuffable_team_list)
-    if()
+    #if()
     weekindex = 0
     finalCalendar = []
     #assume games_list size =< num of weeks
@@ -199,7 +261,7 @@ def main(json_dictionary):
     calendar = make_shell_of_calendar(number_of_weeks, timeslots)
     print(calendar)
     #error handling
-    if(len(games_per_weeks)> len(calendar))
+    #if(len(games_per_weeks)> len(calendar))
     
     #fill in calendar
     copy_of_teams = teams
@@ -210,4 +272,3 @@ def main(json_dictionary):
     #format the final result
     #send to google calendar
         
-
