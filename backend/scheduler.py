@@ -78,7 +78,7 @@ read_Json_file()
 
 #returns 2 things, teams and days
 def parse_Json_dictionary(json_dictionary):
-    '''
+    
     team_objects_array = []
     
     temp_team = []
@@ -118,6 +118,7 @@ def parse_Json_dictionary(json_dictionary):
         practices.append(elem['practices'])
         sdate.append(elem['sdate'])
     return teams, days, timeOption, weeks, sdate, practices
+    '''
 
 #games are in the format (teams[i],teams[j])
 #return true if there is any 
