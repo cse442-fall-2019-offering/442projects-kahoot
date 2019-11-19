@@ -47,8 +47,8 @@ def parse_Json_dictionary(json_dictionary):
     new_team_array = []
     new_day_array = []
     
-    team_objects_array = (json_string['team'])
-    days_array = (json_string['day'])
+    team_objects_array = (json_dictionary['team'])
+    days_array = (json_dictionary['day'])
     
     for elem in team_objects_array:
         new_team_array.append(elem['team'])
@@ -68,9 +68,9 @@ def check_tuples_for_equivelances(game1, game2):
 
 
 #input list of teams should be less than 8
-#input num_of_rounds
-#returns the game list
-def make_games(teams, num_of_rounds):
+
+#returns the game list for matching
+def make_games(num_of_teams):
     '''
     game_list = []
     for round in range(0, num_of_rounds)
@@ -92,22 +92,22 @@ def make_games(teams, num_of_rounds):
                 game_adj_graph[game_index][matrix_index] = 0
     #create weeks
     '''
-    if(len(teams)%2 == 1):
-        teams.append("null")
+    if(num_of_teams % 2 == 1):
+        num_of_teams += 1
     weeks = []
-    if(len(teams) == 2):
+    if(num_of_teams == 2):
         weeks.append([(1,2)])
-    if(len(teams) == 4):
+    if(num_of_teams == 4):
         weeks.append([(1,2),(3,4)])
         weeks.append([(2,3),(1,4)])
         weeks.append([(1,3),(2,4)])
-    if(len(teams) == 6):
+    if(num_of_teams == 6):
         weeks.append([(1,2),(3,4),(5,6)])
         weeks.append([(1,3),(2,6),(4,5)])
         weeks.append([(1,4),(2,5),(3,6)])
         weeks.append([(1,5),(2,3),(4,6)])
         weeks.append([(1,6),(2,4),(3,5)])
-    if(len(teams) == 8):
+    if(num_of_teams == 8):
         weeks.append([(5,8),(3,7),(4,6),(1,2)])
         weeks.append([(2,3),(1,4),(6,8),(5,7)])
         weeks.append([(3,4),(2,5),(7,8),(1,6)])
@@ -115,12 +115,10 @@ def make_games(teams, num_of_rounds):
         weeks.append([(5,6),(2,8),(1,3),(4,7)])
         weeks.append([(6,7),(1,5),(2,4),(3,8)])
         weeks.append([(1,7),(4,8),(3,5),(2,6)])
-        
-    
-    
-    
+    return weeks
 
 
+def make_shell_of_calendar(num_of_weeks, time_slots)
 
     
 
@@ -129,10 +127,17 @@ def main(json_dictionary):
     #parse json_dictionary
     teams,days = parse_Json_dictionary(json_dictionary)
     #make games 
+    games_per_weeks = make_games(len(teams))
+    print(games_per_weeks)
+
+    #make shell schedule
+
 
     #check if possible 
+
     #schedule games
+
     #format the final result
     #send to google calendar
         
-    
+
