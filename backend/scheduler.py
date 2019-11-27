@@ -193,16 +193,25 @@ def day_sort_function(elem):
     return -1
 
 def time_sort_function(elem):
-    timelist = []
-    for e in elem;
-        timelist.append(e[1])
-    sorted(timelist)
+    textString = elem[2][1]
+    num_str = str(textString[0])+str(textString[1])
+    AM_OR_PM = str(textString[-2])+ str(textString[-1])
+    num = int(num_str)
+    if(num == 12):
+        return 12
+    if(AM_OR_PM == 'PM'):
+        num = num+12
+    return num
+
 
 def make_shell_of_calendar(num_of_weeks, time_slots):
     week_array = []
     for x in time_slots:
         week_array.append(["_","PorG",x])
+    print("previous array: ", week_array)
+    week_array.sort(key = time_sort_function)
     week_array.sort(key = day_sort_function)
+    print("sorted array: ",week_array)
     calendar_shell = [copy.deepcopy(week_array) for _ in range(0,num_of_weeks)]
     return calendar_shell
 
@@ -245,17 +254,28 @@ def fill_in_calendar(calendar, teams, games_list):
         weekindex += 1
     return finalCalendar
 
+def impossibleChecker(teams,timeslots,number_of_weeks):
+    return False
+
+def pack_json(calendar):
+    data = {}
+    data["status"] = 'good'
+    data['data'] = calendar
+    return data
 
 
 def main(json_dictionary):
-    
+    json_output = {}
     errorFlag = False
     #parse json_dictionary
     teams,timeslots,number_of_weeks = parse_Json_dictionary(json_dictionary)
     print("Number of Weeks" , number_of_weeks)
     #impossible checker
     if(impossibleChecker(teams,timeslots,number_of_weeks)):
-        errorFlag = True
+        data = {}
+        data["status"] = 'error'
+        data['data'] = 'something something something'
+        return json.dumps(data)
     else:
         #make games 
         games_per_weeks = make_games(len(teams))
@@ -272,11 +292,11 @@ def main(json_dictionary):
         newcalendar = fill_in_calendar(calendar, copy_of_teams, games_per_weeks)
         print(newcalendar)
 
-        json_output = json.dumps(newcalendar)
+        json_data = pack_json(newcalendar)
+
+        json_output = json.dumps(json_data)
 
         print(json_output)
-
+        return json_output
         #format the final result
-        errorFlag = False
-    #send to google calendar
-        
+    
