@@ -183,20 +183,33 @@ def make_games(num_of_teams):
 
 def day_sort_function(elem):
     if("Monday" == elem[2]):
+        time_sort_function(elem[2])
         return 1
     if("Tuesday" == elem[2]):
+        time_sort_function(elem[2])
         return 2
     if("Wednesday" == elem[2]):
+        time_sort_function(elem[2])
         return 3
     if("Thursday" == elem[2]):
+        time_sort_function(elem[2])
         return 4
     if("Friday" == elem[2]):
+        time_sort_function(elem[2])
         return 5
     if("Saturday" == elem[2]):
+        time_sort_function(elem[2])
         return 6
     if("Sunday" == elem[2]):
+        time_sort_function(elem[2])
         return 7
     return -1
+
+def time_sort_function(elem):
+    timelist = []
+    for e in elem;
+        timelist.append(e[1])
+    sorted(timelist)
 
 def make_shell_of_calendar(num_of_weeks, time_slots):
     week_array = []
