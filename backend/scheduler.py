@@ -243,7 +243,8 @@ def fill_in_calendar(calendar, teams, games_list):
         
         finalCalendar.append(newWeek)
         weekindex += 1
-    return finalCalendar
+        json_output = json.dumps(finalCalendar)
+    return json_output
 
 
 
