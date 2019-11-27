@@ -92,32 +92,25 @@ def parse_Json_dictionary(json_dictionary):
     for elem in team_objects_array:
         new_team_array.append(elem['team'])
     for elem in days_array:
-        new_day_array.append(elem['day'])
+        new__array.append(elem['day'])
     return new_team_array,new_day_array
     '''
     teams = []
-    days = []
-    timeOption = []
-    weeks = []
-    sdate = []
-    practices = []
+    howManyWeeks = 0
+    timeSlots = []
     teaminfo = (json_dictionary['teaminfo'])
     del teaminfo[0]
     timing = (json_dictionary['timing'])
     del timing[0]
-    options = (json_dictionary['options'])
+    options = (json_dictionary['scheduleOptions'])
     del options[0]
 
     for elem in teaminfo:
         teams.append(elem['team'])
     for elem in timing:
-        days.append(elem['day'])
-        timeOption.append(elem['timeOption'])
-    for elem in options:
-        weeks.append(elem['weeks'])
-        practices.append(elem['practices'])
-        sdate.append(elem['sdate'])
-    return teams, days, timeOption, weeks, sdate, practices
+        timeSlots.append((elem['day'],elem['timeOption'])
+    howManyWeeks = options[0]['weeks']
+    return teams, timeSlots, howManyWeeks
     
 
 #games are in the format (teams[i],teams[j])
@@ -182,19 +175,19 @@ def make_games(num_of_teams):
     return weeks
 
 def day_sort_function(elem):
-    if("Monday" == elem[2]):
+    if("Monday" == elem[2][0]):
         return 1
-    if("Tuesday" == elem[2]):
+    if("Tuesday" == elem[2][0]):
         return 2
-    if("Wednesday" == elem[2]):
+    if("Wednesday" == elem[2][0]):
         return 3
-    if("Thursday" == elem[2]):
+    if("Thursday" == elem[2][0]):
         return 4
-    if("Friday" == elem[2]):
+    if("Friday" == elem[2][0]):
         return 5
-    if("Saturday" == elem[2]):
+    if("Saturday" == elem[2][0]):
         return 6
-    if("Sunday" == elem[2]):
+    if("Sunday" == elem[2][0]):
         return 7
     return -1
 
@@ -249,30 +242,34 @@ def fill_in_calendar(calendar, teams, games_list):
 
 def main(json_dictionary):
     
-
+    errorFlag = False
     #parse json_dictionary
-    teams,timeslots = parse_Json_dictionary(json_dictionary)
-    number_of_weeks = len(teams) - 1
+    teams,timeslots,number_of_weeks = parse_Json_dictionary(json_dictionary)
     print("Number of Weeks" , number_of_weeks)
-    #make games 
-    games_per_weeks = make_games(len(teams))
-    print(games_per_weeks)
+    #impossible checker
+    if(impossibleChecker(teams,timeslots,number_of_weeks)):
+        errorFlag = True
+    else:
+        #make games 
+        games_per_weeks = make_games(len(teams))
+        print(games_per_weeks)
 
-    #make shell schedule
-    calendar = make_shell_of_calendar(number_of_weeks, timeslots)
-    print(calendar)
-    #error handling
-    #if(len(games_per_weeks)> len(calendar))
-    
-    #fill in calendar
-    copy_of_teams = teams
-    newcalendar = fill_in_calendar(calendar, copy_of_teams, games_per_weeks)
-    print(newcalendar)
+        #make shell schedule
+        calendar = make_shell_of_calendar(number_of_weeks, timeslots)
+        print(calendar)
+        #error handling
+        #if(len(games_per_weeks)> len(calendar))
+        
+        #fill in calendar
+        copy_of_teams = teams
+        newcalendar = fill_in_calendar(calendar, copy_of_teams, games_per_weeks)
+        print(newcalendar)
 
-    json_output = json.dumps(newcalendar)
+        json_output = json.dumps(newcalendar)
 
-    print(json_output)
+        print(json_output)
 
-    #format the final result
+        #format the final result
+        errorFlag = False
     #send to google calendar
         
