@@ -1,5 +1,4 @@
 import random
-import structures
 import router
 import json
 import array
@@ -108,8 +107,10 @@ def parse_Json_dictionary(json_dictionary):
     for elem in teaminfo:
         teams.append(elem['team'])
     for elem in timing:
-        timeSlots.append((elem['day'],elem['timeOption'])
-    howManyWeeks = options[0]['weeks']
+        timeSlots.append((elem['day'],elem['timeOption']))
+    for elem in options:
+        howManyWeeks = elem['weeks']
+    
     return teams, timeSlots, howManyWeeks
     
 
@@ -208,18 +209,17 @@ def make_shell_of_calendar(num_of_weeks, time_slots):
     week_array = []
     for x in time_slots:
         week_array.append(["_","PorG",x])
-    print("previous array: ", week_array)
     week_array.sort(key = time_sort_function)
     week_array.sort(key = day_sort_function)
-    print("sorted array: ",week_array)
     calendar_shell = [copy.deepcopy(week_array) for _ in range(0,num_of_weeks)]
     return calendar_shell
 
 def fill_in_calendar(calendar, teams, games_list):
     shuffable_team_list = copy.deepcopy(teams)
     random.shuffle(shuffable_team_list)
-    #if()
+    game_offset  = len(calendar)- len(games_list)
     weekindex = 0
+    weekindex_from_games_perspective = 0
     finalCalendar = []
     #assume games_list size =< num of weeks
     for week in calendar:
@@ -235,27 +235,48 @@ def fill_in_calendar(calendar, teams, games_list):
             index_of_timeSlot += 1
 
         #schedule games
-        next_index_of_game = len(week)-1
-        ignore_team = -1
-        if(len(teams) % 2 == 1):
-            ignore_team = len(teams) + 1
-        for game in games_list[weekindex]:
-            if(game[0] == ignore_team or game[1] == ignore_team):
-                continue
-            newWeek[next_index_of_game][1] = "Game"
-            team1 = shuffable_team_list[game[0] -1]
-            team2 = shuffable_team_list[game[1] -1]
-            
-            newWeek[next_index_of_game][0] = team1+ " vs "+ team2
-            
-            next_index_of_game  = next_index_of_game - 1
-        
+        if(game_offset > 0):
+            game_offset = game_offset -1
+        else:
+
+            next_index_of_game = len(week)-1
+            ignore_team = -1
+            if(len(teams) % 2 == 1):
+                ignore_team = len(teams) + 1
+            for game in games_list[weekindex_from_games_perspective]:
+                if(game[0] == ignore_team or game[1] == ignore_team):
+                    continue
+                newWeek[next_index_of_game][1] = "Game"
+                team1 = shuffable_team_list[game[0] -1]
+                team2 = shuffable_team_list[game[1] -1]
+                
+                newWeek[next_index_of_game][0] = team1+ " vs "+ team2
+                
+                next_index_of_game  = next_index_of_game - 1
+            weekindex_from_games_perspective = weekindex_from_games_perspective + 1
         finalCalendar.append(newWeek)
         weekindex += 1
     return finalCalendar
 
 def impossibleChecker(teams,timeslots,number_of_weeks):
-    return False
+    length_of_teams = len(teams)
+    pt1A = "The minimum number of weeks you need given "
+    pt2A = " teams is "
+    pt3A = ". You currently have "
+    pt4A = " set as your number of weeks. Please change the number of weeks"
+    if(length_of_teams % 2 == 0):
+        if(number_of_weeks < length_of_teams-1):
+            return pt1A + str(length_of_teams) + pt2A + str(length_of_teams-1) + pt3A + str(number_of_weeks)+ pt4A
+    else:
+        if(number_of_weeks < length_of_teams):
+            return pt1A + str(length_of_teams) + pt2A + str(length_of_teams) + pt3A + str(number_of_weeks)+ pt4A
+    pt1B = "The minimum number of time slots you need given "
+    pt2B = " teams is "
+    pt3B = ". You currently have "
+    pt4B = " time slots given. Please add more time slots"
+    if(length_of_teams + (length_of_teams / 2) > len(timeslots)):
+        return pt1B + str(length_of_teams) + pt2B + str(length_of_teams + (length_of_teams / 2)) + pt3B + str(len(timeslots)) + pt4B
+    return "good"
 
 def pack_json(calendar):
     data = {}
@@ -268,35 +289,30 @@ def main(json_dictionary):
     json_output = {}
     errorFlag = False
     #parse json_dictionary
-    teams,timeslots,number_of_weeks = parse_Json_dictionary(json_dictionary)
-    print("Number of Weeks" , number_of_weeks)
+    teams,timeslots,number_of_weeks_str = parse_Json_dictionary(json_dictionary)
+    number_of_weeks = int(number_of_weeks_str)
     #impossible checker
-    if(impossibleChecker(teams,timeslots,number_of_weeks)):
+    impossible_message = impossibleChecker(teams,timeslots,number_of_weeks)
+    if(impossible_message != "good"):
         data = {}
         data["status"] = 'error'
-        data['data'] = 'something something something'
+        data['data'] = impossible_message
         return json.dumps(data)
     else:
         #make games 
         games_per_weeks = make_games(len(teams))
-        print(games_per_weeks)
 
         #make shell schedule
         calendar = make_shell_of_calendar(number_of_weeks, timeslots)
-        print(calendar)
-        #error handling
-        #if(len(games_per_weeks)> len(calendar))
         
         #fill in calendar
         copy_of_teams = teams
         newcalendar = fill_in_calendar(calendar, copy_of_teams, games_per_weeks)
-        print(newcalendar)
 
         json_data = pack_json(newcalendar)
 
         json_output = json.dumps(json_data)
 
-        print(json_output)
         return json_output
         #format the final result
     
