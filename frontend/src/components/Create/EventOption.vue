@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ day }} {{timeOption}}</td>
+    <td   class="align-center col-2">{{ day }} {{timeOption}}</td>
   </tr>
 </template>
 

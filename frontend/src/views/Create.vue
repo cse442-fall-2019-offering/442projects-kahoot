@@ -24,7 +24,7 @@
             </thead>
             <tbody>
               <tr>
-                <td align="center"><Row v-for="item in rows" v-bind:key="item.team" v-bind:team="item.team"></Row></td>
+                <Row v-for="item in rows" v-bind:key="item.team" v-bind:team="item.team"></Row>
               </tr>
             </tbody>
           </table>
@@ -39,7 +39,7 @@
             </thead>
             <tbody>
               <tr >
-                <td align="center"><EventOption v-for="opt in timeOptions" v-bind:key="opt.day" v-bind:day="opt.day" v-bind:timeOption="opt.timeOption" ></EventOption> </td>
+                <EventOption v-for="opt in timeOptions" v-bind:key="opt.day" v-bind:day="opt.day" v-bind:timeOption="opt.timeOption" ></EventOption>
               </tr>
             </tbody>
           </table>
