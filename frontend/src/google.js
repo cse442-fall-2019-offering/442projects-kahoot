@@ -69,16 +69,44 @@ class Google {
             summary: `iScheduler: ${name}`
           }
         }).then(r => {
-          // const id = r.result.id;
-          // console.log(r);
-          resolve(r);
+          const id = r.result.id;
+          this.createEvents(id, events).then(c => {
+            console.log("Done");
+            resolve(r.result);
+          });
         });
       });
     });
   }
 
+  createEvents(id, events) {
+    return Promise.all(events.map(e => {
+      return this.createEvent(id, e)
+    }));
+  }
+
   createEvent(id, event) {
-    return new Promise(resolve)
+    return new Promise(resolve => {
+      this.loaded.then(_ => {
+        gapi.client.calendar.events.insert({
+          calendarId: id,
+          resource: {
+            summary: event.summary,
+            description: event.description,
+            start: {
+              dateTime: event.datetime_obj_start,
+              timeZone: "EST",
+            },
+            end: {
+              dateTime: event.datetime_obj_end,
+              timeZone: "EST",
+            }
+          }
+        }).then(r => {
+          resolve(r);
+        })
+      });
+    });
   }
 
 } 

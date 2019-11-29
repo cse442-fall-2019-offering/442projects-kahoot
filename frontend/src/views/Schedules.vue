@@ -23,7 +23,23 @@ export default {
       }));
     });
 
-    // this.$google.createCalendar("Calender test");
+
+    // this.$google.createCalendar("Create Event Test", [
+    //   {
+    //     summary: "Test Event 1",
+    //     description: "Test description",
+    //     datetime_obj_start: ( new Date('November 29, 2019 03:24:00') ).toISOString(),
+    //     datetime_obj_end: ( new Date('November 29, 2019 04:24:00') ).toISOString(),
+    //  },
+    // {
+    //     summary: "Test Event 2",
+    //     description: "Test description",
+    //     datetime_obj_start: ( new Date('November 29, 2019 07:24:00') ).toISOString(),
+    //     datetime_obj_end: ( new Date('November 29, 2019 08:24:00') ).toISOString(),
+    //  }
+    // ]).then(r => {
+    //   console.log(r);
+    // });
 
   }
 }
