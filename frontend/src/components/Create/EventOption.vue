@@ -1,7 +1,10 @@
 <template>
-  <tr>
-    <td>{{ day }} {{timeOption}}</td>
+
+  <tr >
+    <td >{{ day }} {{timeOption}}</td>
+    
   </tr>
+
 </template>
 
 <script>

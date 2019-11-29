@@ -3,50 +3,51 @@
   <div>
     
     <div class="sidenav">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-      Options
-    </button>
-
+      
       <a href="#" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-plus"></span>Team</a>
       <a href="#" data-toggle="modal" data-target="#optionModal"><span class="oi oi-plus"></span>Options</a>
       <a href="#"  data-toggle="modal" data-target="#eventModal"><span class="oi oi-plus"></span>Time-Slot</a>
-      <a href="#"><span class="oi oi-plus"></span>Player</a>
+      
     </div>
 
     <div class="content container">
-      <div class = "row">
-        <div class = "col-12">
+      <div class = "col-12">
+        <div class = "row">
+        
           <table class="table">
             <thead>
               <tr>
                 <th>Teams</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="table-content">  
               <tr>
-                <td align="center"><Row v-for="item in rows" v-bind:key="item.team" v-bind:team="item.team"></Row></td>
+                <Row v-for="item in rows" v-bind:key="item.team" v-bind:team="item.team"></Row> 
+                
               </tr>
             </tbody>
           </table>
         </div>
-      <div class="conent container">
-        <div class="col-12">
-          <table class="table">
+      </div>
+       <div class="col-12">
+          <div class="row">
+         
+            <table class="table">
             <thead>
               <tr>
                 <th>Time-Slot</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="table-content">
               <tr >
-                <td align="center"><EventOption v-for="opt in timeOptions" v-bind:key="opt.day" v-bind:day="opt.day" v-bind:timeOption="opt.timeOption" ></EventOption> </td>
+                <EventOption v-for="opt in timeOptions" v-bind:key="opt.day" v-bind:day="opt.day" v-bind:timeOption="opt.timeOption" ></EventOption>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      </div>
-   
+    </div>
+   <div>
       <button type="button" v-on:click="onSubmit" class="btn btn-primary posit">Submit Data</button>
     </div>
 
@@ -89,10 +90,6 @@
           <div class="form-group row">
             <label for="" >Number of Weeks</label>
                 <input v-model="weeks" class="form-control" type="number" placeholder="0">
-          </div>
-          <div class="form-group row">
-            <label for="" >Number of weekly practices </label>
-                <input v-model="practices" class="form-control" type="number" placeholder="0">
           </div>
           <div class="form-group row">
             <label for="" >Start date</label>
@@ -263,6 +260,14 @@ export default {
 .content {
   margin-left: 160px;
   padding-top: 55px;
+  
+  
+}
+.table-content{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
 }
 .posit{
   position: absolute;
