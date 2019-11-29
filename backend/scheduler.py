@@ -28,7 +28,7 @@ def get_week_array(json_string):
         final_team.update({temp_team[x] : new_day_array[x]})
     print(final_team)
     return str(final_team)
-'''
+
 #locally testing json parser
 '''
 def read_Json_file():
