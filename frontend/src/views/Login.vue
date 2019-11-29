@@ -24,30 +24,33 @@
 import axios from 'axios';
 
 export default{
-    name: 'Login',
-    methods: {
-        login: function() {
-            this.$gAuth.signIn()
-            .then(GoogleUser => {
-                console.log('user', GoogleUser)
-                this.$store.commit('login', GoogleUser.getBasicProfile().U3);
-                this.$router.push("create");
-                // this.isSignIn = this.$gAuth.isAuthorized
-            })
-            .catch(error  => {
-            //on fail do something
-            })
-        },
-        logout: function() {
-            this.$gAuth.signOut()
-            .then(() => {
-                this.$store.commit('logout');
-            })
-            .catch(error  => {
-            
-            })
-        }
+  name: 'Login',
+  methods: {
+    login: function() {
+      this.$google.login();
+      // this.$gAuth.signIn()
+      // .then(GoogleUser => {
+      //     window.user = GoogleUser;
+      //     console.log('user', GoogleUser)
+      //     this.$store.commit('login', GoogleUser.getBasicProfile().U3);
+      //     this.$router.push("create");
+      //     this.$gAuth.signOut()
+      //     // this.isSignIn = this.$gAuth.isAuthorized
+      // })
+      // .catch(error  => {
+      // //on fail do something
+      // })
+    },
+    logout: function() {
+      // this.$gAuth.signOut()
+      // .then(() => {
+      //     this.$store.commit('logout');
+      // })
+      // .catch(error  => {
+
+      // })
     }
+  }
 }
 </script>
 

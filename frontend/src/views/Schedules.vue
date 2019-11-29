@@ -1,59 +1,35 @@
 <template>
-  <div>
-    
-    <div class="sidenav">
-
-      <a href="/create"><span class="oi oi-plus"></span>New</a>
-      <a href="#"><span class="oi oi-plus"></span>Old</a>
-      <a href="#"><span class="oi oi-plus"></span>Upload</a>
-    </div>
+  <div class="pl-5 pr-5" style="padding-top: 80px;">
+    <Calendar v-for="c in calendars" :key="c.name" :name="c.name" />
   </div>
 </template>
 
 <script>
-import Row from './../components/Create/Row.vue';
+import Calendar from '@/components/Calendar.vue';
 
 export default {
-  components: {
-    Row
-  },
-  data () {
+  data() {
     return {
-      rows: []
-    } 
-  },
-  methods: {
-    addTeam: function() {
-      this.rows.push({ team: this.rows.length + 1 });
+      calendars: []
     }
+  },
+  components: {
+    Calendar
+  },
+  mounted() {
+    this.$google.getCalendars().then(c => {
+      this.calendars = c.map(v => ({
+        name: v.summary.slice(12)
+      }));
+    });
+
+    // this.$google.createCalendar("Calender test");
+
   }
 }
 </script>
 
 <style lang="scss">
-.sidenav {
-  height: 100%; 
-  width: 160px;
-  position: fixed; 
-  z-index: 1; 
-  top: 0; 
-  left: 0;
-  background-color: #121212; 
-  overflow-x: hidden; 
-  padding: 20px;
-  padding-top: 80px;
-  text-align: left;
-}
-.sidenav a {
-  margin-top: 10px;
-  font-size: 20px;
-  color: #c9c9c9;
-  display: block;
-}
-.sidenav a:hover {
-  text-decoration: none;
-  color: green;
-}
 .content {
   margin-left: 160px;
   padding-top: 55px;
