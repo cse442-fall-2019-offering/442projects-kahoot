@@ -4,7 +4,9 @@ import json
 import array
 import copy
 
-'''def get_week_array(json_string):
+
+def get_week_array(json_string):
+
     
         
     print(new_day_array)

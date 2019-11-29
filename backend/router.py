@@ -8,4 +8,4 @@ CORS(app)
 @app.route("/schedule", methods=['POST'])
 def schedule():
     data = request.json
-    return scheduler.main(data)
+    return data
