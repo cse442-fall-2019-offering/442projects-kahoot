@@ -3,6 +3,8 @@ import router
 import json
 import array
 import copy
+from datetime import datetime, timedelta
+from dateutil.parser import parse
 
 
 def get_week_array(json_string):
@@ -98,6 +100,7 @@ def parse_Json_dictionary(json_dictionary):
     '''
     teams = []
     howManyWeeks = 0
+    startDate = ""
     timeSlots = []
     teaminfo = (json_dictionary['teaminfo'])
     del teaminfo[0]
@@ -112,8 +115,9 @@ def parse_Json_dictionary(json_dictionary):
         timeSlots.append((elem['day'],elem['timeOption']))
     for elem in options:
         howManyWeeks = elem['weeks']
+        startDate = elem['sdate']
     
-    return teams, timeSlots, howManyWeeks
+    return teams, timeSlots, howManyWeeks, startDate
     
 
 #games are in the format (teams[i],teams[j])
@@ -286,12 +290,90 @@ def pack_json(calendar):
     data['data'] = calendar
     return data
 
+def getDay(dayOfWeek):
+  if dayOfWeek=="Monday":
+    return 0
+  if dayOfWeek=="Tuesday":
+    return 1
+  if dayOfWeek=="Wednesday":
+    return 2
+  if dayOfWeek=="Thursday":
+    return 3
+  if dayOfWeek=="Friday":
+    return 4
+  if dayOfWeek=="Saturday":
+    return 5
+  if dayOfWeek=="Sunday":
+    return 6
+
+def getDates(arr,sdate):
+  monDates=[]
+  numOfWeeks=len(arr)
+  getmedate=datetime.strptime(sdate, '%Y-%m-%d')
+  weekdaynum=getmedate.weekday()
+  if weekdaynum!=0:
+    getmedate = getmedate + timedelta(7-weekdaynum)
+    monDates.append(getmedate)
+    #starts at next monday in get me date
+  for i in range(numOfWeeks-1):
+    getmedate = getmedate + timedelta(7)
+    monDates.append(getmedate)
+  return monDates
+
+def convertToTime(time):
+  num = int(time[0]+time[1])
+  if num==12:
+    return ["12:00:00","12:50:00"]
+  if time[-2]=="P":
+    num=num+12
+  num_str=""
+  if num<10:
+    num_str="0"+str(num)
+  else:
+    num_str=str(num)
+  ret = [num_str+":00:00", num_str+":50:00"]
+  return ret
+
+def finalizeDates(monDates,arr):
+  array=[]
+  for week in range(len(arr)):
+    for event in arr[week]:
+      dayNum = getDay(event[2][0])
+      time = convertToTime(event[2][1])
+      dateOf = monDates[week] + timedelta(dayNum)
+      if event[1]=="PorG":
+        continue
+      string_of_date = dateOf.strftime("%m/%d/%Y")
+      dicti={}
+      dicti["summary"] = event[0]
+      dicti["description"] = event[1]
+      dicti["date"]=string_of_date
+      dicti["starTime"] = time[0]
+      dicti["endtime"] = time[1]
+      datetime_start=string_of_date+" "+time[0]
+      datetime_end=string_of_date+" "+time[1]
+      dicti["datetime_start_string"] =  datetime_start
+      dicti["datetime_start_string"] =  datetime_end
+
+      #format = '%m/%d/%Y %H:%M:%S'
+      datetime_object_start = parse(datetime_start).isoformat()
+      datetime_object_end = parse(datetime_end).isoformat()
+      dicti["datetime_obj_start"]=datetime_object_start
+      dicti["datetime_obj_end"] = datetime_object_end
+
+      array.append(dicti)
+  
+  return array
+
+
+
+
 
 def main(json_dictionary):
     json_output = {}
     errorFlag = False
     #parse json_dictionary
-    teams,timeslots,number_of_weeks_str = parse_Json_dictionary(json_dictionary)
+    teams,timeslots,number_of_weeks_str, strtDate = parse_Json_dictionary(json_dictionary)
     number_of_weeks = int(number_of_weeks_str)
     #impossible checker
     impossible_message = impossibleChecker(teams,timeslots,number_of_weeks)
@@ -311,7 +393,10 @@ def main(json_dictionary):
         copy_of_teams = teams
         newcalendar = fill_in_calendar(calendar, copy_of_teams, games_per_weeks)
 
-        json_data = pack_json(newcalendar)
+        json_data = finalizeDates(getDates(newcalendar,strtDate),newcalendar)
+        #json_data = pack_json(newcalendar)
+
+      
 
         json_output = json.dumps(json_data)
 

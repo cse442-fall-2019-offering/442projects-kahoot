@@ -62,7 +62,16 @@
       </div>
       <div class="modal-body">
         <div class="container">
+          <p v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+                <ul>
+                    <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+                </ul>
+            </p>
+        </div>
+        <div class="container">
           <div class="form-group row">
+             
             <label for="">Team Name</label>
             <input v-model="message" placeholder="Team 1" class="form-control">
           </div>
@@ -70,7 +79,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button"  v-on:click="addTeam" data-dismiss="modal" class="btn btn-primary">Submit</button>
+        <button type="submit" v-on:click="addTeam" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
@@ -82,12 +91,24 @@
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Schedule Options</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="container">
+          <p v-if="optionsErrors.length">
+              <b>Please correct the following error(s):</b>
+                <ul>
+                    <li v-for="error in optionsErrors" v-bind:key="error">{{ error }}</li>
+                </ul>
+              
+            </p>
+           
+        </div>
+        <div class="container">
           <div class="form-group row">
+            
             <label for="" >Number of Weeks</label>
                 <input v-model="weeks" class="form-control" type="number" placeholder="0">
           </div>
@@ -99,7 +120,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button"  v-on:click="addOptions" data-dismiss="modal" class="btn btn-primary">Submit</button>
+        <button type="button"  v-on:click="addOptions"  class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
@@ -116,7 +137,17 @@
       </div>
       <div class="modal-body">
         <div class="container">
+          <p v-if="timeErrors.length">
+                <b>Please correct the following error(s):</b>
+                <ul>
+                    <li v-for="error in timeErrors" v-bind:key="error">{{ error }}</li>
+                </ul>
+                <br><br>
+              </p>
+        </div>
+        <div class="container">
           <div class="form-group row">
+          
             <label for="exampleS" id="spacing">Day</label>
             
               <select v-model="selected" >
@@ -128,8 +159,8 @@
                 <option >Saturday</option>
                 <option >Sunday</option>
               </select>
-            
           </div>
+          
 
     
         </div>
@@ -157,7 +188,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" v-on:click="addEvent" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        <button type="button" v-on:click="addEvent" class="btn btn-primary" >Submit</button>
       </div>
     </div>
   </div>
@@ -182,16 +213,17 @@ export default {
   },
   data () {
     return {
-      message:'',
-      weeks: '',
-      practices:'',
-      sdate:'',
+      message:null,
+      weeks: null,
+      sdate:null,
       rows: [{
         
       }],
-      selected:'',
-      timeOption:'',
-      day:'',
+      errors:[],
+      optionsErrors:[],
+      timeErrors:[],
+      selected:null,
+      timeOption:null,
       options:[{}],      
       timeOptions: [{
        
@@ -201,20 +233,62 @@ export default {
   },
   methods: {
     addTeam: function() {
-      this.rows.push({ team: (this.message)  });
+      if (this.message){
+        this.errors.pop()
+        this.rows.push({ team: (this.message)  });
+        this.message='';
+      }
+      else{
+        if(this.errors.length==0){
+        this.errors.push("Team Name required.");
+        }
+      }
+      
     },
     addEvent: function(){
-     this.timeOptions.push({
-       day:(this.selected),
-       timeOption:(this.timeOption)
+      if(this.selected && this.timeOption){
+        if(this.timeErrors.length>1){
+          this.timeErrors.pop()
+          this.timeErrors.pop()
+        }
+        else{
+          this.timeErrors.pop()
+        }
+        this.timeOptions.push({
+          day:(this.selected),
+          timeOption:(this.timeOption)
+          
+
        }
        );
+       this. selected = '';
+       this.timeOption = '';
+      }
+      else if(!this.selected && !this.timeOption && this.timeErrors.length==0){this.timeErrors.push("Day is reqired"); this.timeErrors.push("Time is required");}
+      else if(!this.timeOption) this.timeErrors.push("Time is required")
+      else if(!this.selected) this.timeErrors.push("Day is required")
      
     },
     addOptions: function(){
-      this.options.push({weeks: (this.weeks), practices:(this.practices), sdate: (this.sdate)});
+      if(this.weeks && this.sdate){
+        if(this.optionsErrors.length>1){
+          this.optionsErrors.pop()
+          this.optionsErrors.pop()
+        }
+        else{
+          this.optionsErrors.pop()
+        }
+      this.options.push({weeks: (this.weeks), sdate: (this.sdate)});
+      this.weeks='';
+      this.sdate='';
+      }
+      else if(!this.weeks && !this.sdate && this.timeErrors.length==0) {this.optionsErrors.push("Number of weeks is reqired");  this.optionsErrors.push("Start date is required");}
+      else if(!this.weeks) this.optionsErrors.push("Number of weeks is reqired. It has to be a numerical value")
+      else if(!this.sdate) this.optionsErrors.push("Start date is required")
     },
+    
     onSubmit:function(){
+      
       const payload={
         teaminfo : this.rows,
         timing : this.timeOptions,
@@ -228,7 +302,10 @@ export default {
         .catch(e => {
           console.log(e);
         });
-    }
+    
+    
+    
+  }
   }
 }
 </script>
