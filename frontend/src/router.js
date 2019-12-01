@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Login from './views/Login.vue';
+import Help from './views/Help.vue';
 import Schedules from './views/Schedules.vue';
 import Create from './views/Create.vue';
 import Calendar from './views/Calendar.vue';
@@ -31,6 +32,11 @@ export default new Router({
       path: '/calendar/:id',
       name: 'calendar',
       component: Calendar
-    }
+    },
+    {
+      path: '/Help',
+      name: 'Help',
+      component: Help
+    },
   ]
 })
