@@ -1,6 +1,8 @@
 <template>
-  <div class="pl-5 pr-5" style="padding-top: 80px;">
-    <Calendar v-for="c in calendars" :key="c.name" :name="c.name" />
+  <div class="pl-5 pr-5 text-left" style="padding-top: 80px;">
+    <h2>({{ calendars.length }}) Schedules</h2>
+    <hr>
+    <Calendar v-for="c in calendars" :key="c.id" :name="c.name" :id="c.id" />
   </div>
 </template>
 
@@ -19,7 +21,8 @@ export default {
   mounted() {
     this.$google.getCalendars().then(c => {
       this.calendars = c.map(v => ({
-        name: v.summary.slice(12)
+        name: v.summary.slice(12),
+        id: v.id
       }));
     });
 
