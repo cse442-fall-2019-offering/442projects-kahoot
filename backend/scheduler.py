@@ -354,11 +354,12 @@ def finalizeDates(monDates,arr):
       datetime_end=string_of_date+" "+time[1]
       dicti["datetime_start_string"] =  datetime_start
       dicti["datetime_start_string"] =  datetime_end
+
       #format = '%m/%d/%Y %H:%M:%S'
-      #datetime_object_start = datetime.strptime(datetime_start,format)
-      #datetime_object_end = datetime.strptime(datetime_end,format)
-      #dicti["datetime_obj_start"]=datetime_object_start
-      #dicti["datetime_obj_end"] = datetime_object_end
+      datetime_object_start = parse(datetime_start).isoformat()
+      datetime_object_end = parse(datetime_end).isoformat()
+      dicti["datetime_obj_start"]=datetime_object_start
+      dicti["datetime_obj_end"] = datetime_object_end
 
       array.append(dicti)
   
