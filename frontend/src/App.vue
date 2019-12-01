@@ -16,7 +16,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li :hidden="!$store.getters.authenticated"> Logged in as {{ $store.getters.email }} </li>
-            <li :hidden="!$store.getters.authenticated"><button  v-on:click="logout" class="btn">Logout</button></li>
+            <li :hidden="!$store.getters.authenticated"><button  v-on:click="this.$google.logout" class="btn">Logout</button></li>
           </ul>
         </div>
       </nav>
@@ -28,12 +28,7 @@
 
 <script>
 export default {
-  methods: {
-    logout() {
-      this.$store.commit("logout");
-      this.$router.push('/');
-    }
-  }
+
 }
 </script>
 

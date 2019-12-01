@@ -1,59 +1,54 @@
 <template>
-  <div>
-    
-    <div class="sidenav">
-
-      <a href="/create"><span class="oi oi-plus"></span>New</a>
-      <a href="#"><span class="oi oi-plus"></span>Old</a>
-      <a href="#"><span class="oi oi-plus"></span>Upload</a>
-    </div>
+  <div class="pl-5 pr-5 text-left" style="padding-top: 80px;">
+    <h2>({{ calendars.length }}) Schedules</h2>
+    <hr>
+    <Calendar v-for="c in calendars" :key="c.id" :name="c.name" :id="c.id" />
   </div>
 </template>
 
 <script>
-import Row from './../components/Create/Row.vue';
+import Calendar from '@/components/Calendar.vue';
 
 export default {
-  components: {
-    Row
-  },
-  data () {
+  data() {
     return {
-      rows: []
-    } 
-  },
-  methods: {
-    addTeam: function() {
-      this.rows.push({ team: this.rows.length + 1 });
+      calendars: []
     }
+  },
+  components: {
+    Calendar
+  },
+  mounted() {
+    this.$google.getCalendars().then(c => {
+      this.calendars = c.map(v => ({
+        name: v.summary.slice(12),
+        id: v.id
+      }));
+    });
+
+
+    // this.$google.createCalendar("Create Event Test", [
+    //   {
+    //     summary: "Test Event 1",
+    //     description: "Test description",
+    //     datetime_obj_start: ( new Date('November 29, 2019 03:24:00') ).toISOString(),
+    //     datetime_obj_end: ( new Date('November 29, 2019 04:24:00') ).toISOString(),
+    //  },
+    // {
+    //     summary: "Test Event 2",
+    //     description: "Test description",
+    //     datetime_obj_start: ( new Date('November 29, 2019 07:24:00') ).toISOString(),
+    //     datetime_obj_end: ( new Date('November 29, 2019 08:24:00') ).toISOString(),
+    //  }
+    // ]).then(r => {
+    //   console.log(r);
+    // });
+
   }
 }
 </script>
 
 <style lang="scss">
-.sidenav {
-  height: 100%; 
-  width: 160px;
-  position: fixed; 
-  z-index: 1; 
-  top: 0; 
-  left: 0;
-  background-color: #121212; 
-  overflow-x: hidden; 
-  padding: 20px;
-  padding-top: 80px;
-  text-align: left;
-}
-.sidenav a {
-  margin-top: 10px;
-  font-size: 20px;
-  color: #c9c9c9;
-  display: block;
-}
-.sidenav a:hover {
-  text-decoration: none;
-  color: green;
-}
 .content {
   margin-left: 160px;
   padding-top: 55px;
