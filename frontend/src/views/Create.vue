@@ -298,9 +298,23 @@ export default {
       axios.post(process.env.VUE_APP_BACKEND + '/schedule', payload)
         .then(r => {
           console.log(r);
+          if (!Array.isArray(r.data)) {
+            alert(r.data.data);
+          } else {
+            const currTime = Date.now();
+            this.$google.createCalendar(currTime, r.data).then(c => {
+              this.$router.push({
+                name: 'calendar',
+                params: {
+                  id: encodeURI(c.id)
+                }
+              })
+            });
+          }
+        
         })
         .catch(e => {
-          console.log(e);
+          alert(e);
         });
     
     
