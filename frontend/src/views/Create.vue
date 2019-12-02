@@ -265,8 +265,8 @@ export default {
        this.timeOption = '';
       }
       else if(!this.selected && !this.timeOption && this.timeErrors.length==0){this.timeErrors.push("Day is reqired"); this.timeErrors.push("Time is required");}
-      else if(!this.timeOption) this.timeErrors.push("Time is required")
-      else if(!this.selected) this.timeErrors.push("Day is required")
+      else if(!this.timeOption && this.timeErrors.length<2) this.timeErrors.push("Time is required")
+      else if(!this.selected && this.timeErrors.length<2) this.timeErrors.push("Day is required")
      
     },
     addOptions: function(){
@@ -282,9 +282,9 @@ export default {
       this.weeks='';
       this.sdate='';
       }
-      else if(!this.weeks && !this.sdate && this.timeErrors.length==0) {this.optionsErrors.push("Number of weeks is reqired");  this.optionsErrors.push("Start date is required");}
-      else if(!this.weeks) this.optionsErrors.push("Number of weeks is reqired. It has to be a numerical value")
-      else if(!this.sdate) this.optionsErrors.push("Start date is required")
+      else if(!this.weeks && !this.sdate && this.optionsErrors.length==0) {this.optionsErrors.push("Number of weeks is reqired");  this.optionsErrors.push("Start date is required");}
+      else if(!this.weeks && this.optionsErrors.length<2) this.optionsErrors.push("Number of weeks is reqired. It has to be a numerical value")
+      else if(!this.sdate && this.optionsErrors.length<2) this.optionsErrors.push("Start date is required")
     },
     
     onSubmit:function(){
