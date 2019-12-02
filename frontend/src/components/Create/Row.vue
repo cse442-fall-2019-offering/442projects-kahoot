@@ -1,8 +1,9 @@
 <template>
+
   <tr>
-    <td>{{ team }} </td>
-   
+    <td >{{ team }} </td>
   </tr>
+
 </template>
 
 <script>
@@ -11,3 +12,6 @@ export default {
   props: ['team']
 }
 </script>
+<style lang="scss">
+
+</style>
