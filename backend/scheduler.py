@@ -2,6 +2,7 @@ import random
 import router
 import json
 import array
+import math
 import copy
 from datetime import datetime, timedelta
 from dateutil.parser import parse
@@ -280,8 +281,8 @@ def impossibleChecker(teams,timeslots,number_of_weeks):
     pt2B = " teams is "
     pt3B = ". You currently have "
     pt4B = " time slots given. Please add more time slots"
-    if(length_of_teams + (length_of_teams / 2) > len(timeslots)):
-        return pt1B + str(length_of_teams) + pt2B + str(length_of_teams + (length_of_teams / 2)) + pt3B + str(len(timeslots)) + pt4B
+    if(length_of_teams + math.floor(length_of_teams / 2) > len(timeslots)):
+        return pt1B + str(length_of_teams) + pt2B + str(length_of_teams + math.floor(length_of_teams / 2)) + pt3B + str(len(timeslots)) + pt4B
     return "good"
 
 def pack_json(calendar):
