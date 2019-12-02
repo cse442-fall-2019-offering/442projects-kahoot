@@ -301,7 +301,7 @@ export default {
           if (!Array.isArray(r.data)) {
             alert(r.data.data);
           } else {
-            const currTime = Date.now();
+            const currTime = (new Date().toLocaleString());
             this.$google.createCalendar(currTime, r.data).then(c => {
               this.$router.push({
                 name: 'calendar',
