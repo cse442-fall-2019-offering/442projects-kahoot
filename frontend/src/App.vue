@@ -15,8 +15,9 @@
             <b-nav-item :hidden="!$store.getters.authenticated" to="/Help">Help</b-nav-item>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li :hidden="!$store.getters.authenticated"> Logged in as {{ $store.getters.email }} </li>
-            <li :hidden="!$store.getters.authenticated"><button  v-on:click="this.$google.logout" class="btn">Logout</button></li>
+            <li :hidden="!$store.getters.authenticated"><button  v-on:click="this.$google.logout" class="btn">
+              <span :hidden="!$store.getters.authenticated"> Logout {{ $store.getters.email }} </span></button>
+            </li>
           </ul>
         </div>
       </nav>

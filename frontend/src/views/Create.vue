@@ -10,7 +10,7 @@
       
     </div>
 
-    <div class="content container">
+    <div class="content mt-4">
       <div class = "col-12">
         <div class = "row">
         
