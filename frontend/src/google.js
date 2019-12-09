@@ -59,7 +59,17 @@ class Google {
     });
   }
 
-  deleteCalendar(id) {}
+  deleteCalendar(id) {
+    return new Promise(resolve => {
+      this.loaded.then(_ => {
+        gapi.client.calendar.calendars.delete({
+          calendarId: id
+        }).then(r => {
+          resolve(r);
+        })
+      });
+    });
+  }
 
   createCalendar(name, events) {
     return new Promise(resolve => {

@@ -7,14 +7,22 @@
           </router-link>
   
         <button class="w-100 m-1 btn btn-info">Mail</button>
-        <button class="w-100 m-1 btn btn-danger">Delete</button>
+        <button v-on:click="deleteC" class="w-100 m-1 btn btn-danger">Delete</button>
       </div>
     </div>    
 </template>
 
 <script>
 export default {
-  props: ["name", "id"]
+  props: ["name", "id"],
+  methods: {
+    deleteC: function (event) {
+      console.log("Delete");
+      this.$google.deleteCalendar(this.id).then(_ => {
+        this.$router.go();
+      });
+    }
+  }
 }
 </script>
 
